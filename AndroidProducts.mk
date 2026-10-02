@@ -7,5 +7,5 @@ PRODUCT_MAKEFILES := \
     $(LOCAL_DIR)/twrp_myron.mk
 
 COMMON_LUNCH_CHOICES := \
-    twrp_myron-ap2a-eng \
-    twrp_myron-ap2a-userdebug
+    twrp_myron-bp2a-eng \
+    twrp_myron-bp2a-userdebug

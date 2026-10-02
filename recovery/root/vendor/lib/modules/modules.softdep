@@ -2,6 +2,7 @@
 softdep cpu_mpam pre: mpam
 softdep q6_notifier_dlkm pre: qcom_q6v5_pas
 softdep qti_ptd_share pre: qti_power_telemetry
+softdep sia91xx_dlkm pre: aw882xx_dlkm
 softdep msm_video pre: subsys-pil-tz msm-mmrm
 softdep mpam pre: qcom_scmi_client
 softdep lpass_bt_swr_dlkm pre: bt_fm_swr
@@ -16,6 +17,7 @@ softdep ipclite pre: qcom_hwspinlock
 softdep qsee_ipc_irq_bridge pre: qcom_ipcc
 softdep platform_mpam pre: mpam
 softdep slc_mpam pre: mpam
+softdep smcinvoke_dlkm pre: si_core_module
 softdep qti_dynamic_hw_trip pre: qcom_scmi_client
 softdep dwc3_msm pre: phy-generic phy-msm-snps-hs phy-msm-ssusb-qmp eud
 softdep machine_dlkm pre: btfmcodec

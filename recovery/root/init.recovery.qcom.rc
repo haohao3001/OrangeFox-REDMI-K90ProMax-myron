@@ -2,14 +2,6 @@
 # TWRP 16 / SM8850 / canoe / NXP KeyMint / Virtual A/B
 # SPDX-License-Identifier: Apache-2.0
 
-#为什么要导入两遍？(init.rc中已包含)
-#import /init.recovery.logd.rc
-#import /init.recovery.ldconfig.rc
-#import /init.recovery.usb.rc
-#import /init.recovery.service.rc
-import /init.recovery.hlthchrg.rc
-import /init.recovery.wifi.rc
-
 # -----------------------------------------------------------------------------
 # Init sequence:
 #   late-init → early-fs → fs → post-fs → firmware → boot
@@ -45,33 +37,21 @@ on fs
     chown system system /dev/ion
 
     # Mount persist for KeyMint / QSEE credentials
-    mkdir /mnt/vendor 0775 shell system
+    mkdir /persist 0775 shell system
     mkdir /mnt/vendor/persist 0775 shell system
-    wait /dev/block/bootdevice/by-name/persist
-    mount ext4 /dev/block/bootdevice/by-name/persist /persist noatime nosuid nodev barrier=1
+    wait /dev/block/by-name/persist
+    mount ext4 /dev/block/by-name/persist /persist noatime nosuid nodev barrier=1
     mount none /persist /mnt/vendor/persist bind
-
-    # Mount firmware for QSEE TA images
-    mkdir /vendor/firmware_mnt 0755 root root
-    mkdir /firmware 0755 root root
 
     # myron uses NXP KeyMint (same as popsicle)
     setprop ro.keymint nxp
 
-    # Gatekeeper config for QTI TEE-based GK (not SPU-based)
-    setprop vendor.gatekeeper.disable_spu true
-    setprop vendor.gatekeeper.is_security_level_spu 0
-
-on boot
-    # ADB over USB
-    setprop sys.usb.config adb
-    setprop sys.usb.configfs 1
-
-    chmod 0755 /sbin/iw
-    chmod 0755 /sbin/wifi-dhcp.sh
-    chmod 0755 /sbin/wifi-load-modules.sh
-    chmod 0755 /sbin/wpa_cli
-    chmod 0755 /sbin/wpa_supplicant
+    #For Decrypt
+    start vendor.gatekeeper_default
+    start vendor.keymint
+    start vendor.secretkeeper
+    start vendor.qseecomd
+    start odm.weaver_nxp
 
 on property:ro.boot.usbcontroller=*
     setprop sys.usb.controller ${ro.boot.usbcontroller}
@@ -81,14 +61,6 @@ on property:ro.boot.usbcontroller=*
 # TWRP sets twrp.modules.loaded=true after loading kernel modules.
 # -----------------------------------------------------------------------------
 on property:twrp.modules.loaded=true
-    # Mount modem firmware (slot-aware)
-    mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /vendor/firmware_mnt ro
-    mount none /vendor/firmware_mnt /firmware bind
-    chmod 0755 /sbin/iw
-    chmod 0755 /sbin/wifi-dhcp.sh
-    chmod 0755 /sbin/wifi-load-modules.sh
-    chmod 0755 /sbin/wpa_cli
-    chmod 0755 /sbin/wpa_supplicant
 
     # Load ADSP for PMIC
     wait /sys/kernel/boot_adsp/boot
@@ -113,27 +85,16 @@ on property:twrp.modules.loaded=true
     chmod 0444 /dev/dma_heap/qcom,system
     chmod 0444 /dev/dma_heap/system
 
-    # NXP eSE / Weaver NFC transport
-    insmod /vendor/lib/modules/stm_nfc_i2c.ko
-    insmod /vendor/lib/modules/nxp-nci.ko
-
     # Touch: force normal coordinate reporting mode (disable raw/THP)
     wait /sys/class/touch/touch_dev/enable_touch_raw
     start touch-raw-guard
 
     # Start health HAL for battery monitoring
     start vendor.health-default
-    # Recovery drives qcom-hv-haptics directly through input force-feedback.
-    # Do not start Xiaomi AIDL vibrator HAL; it can mask direct haptics fallback.
-
-    # Keep firmware mounted: WLAN firmware fallback loads IPA/CNSS blobs from
-    # /firmware/image when the WiFi driver is started from recovery UI.
-
-on property:servicemanager.ready=true
-    setprop sys.boot_completed 1
-
-on property:sys.boot_completed=1
-    start myron-nxp-gate
+    
+    #For Decrypt
+    stop vendor.secure_element
+    start vendor.secure_element
 
 # -----------------------------------------------------------------------------
 # myron-specific services
@@ -147,12 +108,4 @@ service touch-raw-guard /system/bin/sh -c \
     user root
     group root system input
     oneshot
-    seclabel u:r:recovery:s0
-
-# Start NXP eSE/Weaver in the same order as the working Xiaomi 17 Pro Max TWRP.
-service myron-nxp-gate /system/bin/myron-nxp-gate.sh
-    disabled
-    oneshot
-    user root
-    group root shell
     seclabel u:r:recovery:s0

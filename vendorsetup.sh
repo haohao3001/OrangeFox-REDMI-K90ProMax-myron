@@ -1,7 +1,5 @@
-#!/bin/bash
-#
 #	This file is part of the OrangeFox Recovery Project
-# 	Copyright (C) 2020-2026 The OrangeFox Recovery Project
+# 	Copyright (C) 2020-2025 The OrangeFox Recovery Project
 #
 #	OrangeFox is free software: you can redistribute it and/or modify
 #	it under the terms of the GNU General Public License as published by
@@ -18,13 +16,8 @@
 #
 # 	Please maintain this if you use this script or any part of it
 #
-# Device: Xiaomi myron (POCO F8 Ultra / Redmi K90 Pro Max)
-# SoC   : Snapdragon 8 Elite Gen 5 (SM8850 / sun)
-# Branch: OrangeFox 14.1
-
-echo vendorsetup load successfully
+echo 'Load myron build env'
 export LC_ALL="C"
-
 # ─── A/B with dedicated recovery partition ────────────────────────────────────
 export FOX_AB_DEVICE=1
 export OF_AB_DEVICE_WITH_RECOVERY_PARTITION=1
@@ -76,7 +69,3 @@ export FOX_BUILD_DEVICE="myron"
 export FOX_VARIANT="Xiaomi_REDMI_K90_ProMax"
 export FOX_MAINTAINER_PATCH_VERSION=$(date +%y%m%d)
 export OF_MAINTAINER="haohao3001@github"
-
-# ─── Magisk ───────────────────────────────────────────────────────────────────
-export OF_MAGISK="/tmp/misc/Magisk.zip"
-export FOX_USE_SPECIFIC_MAGISK_ZIP="/tmp/misc/Magisk.zip"

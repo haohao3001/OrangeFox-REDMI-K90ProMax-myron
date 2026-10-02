@@ -16,7 +16,7 @@
 DEVICE_PATH := device/xiaomi/myron
 
 # Shipping API level
-PRODUCT_SHIPPING_API_LEVEL := 35
+PRODUCT_SHIPPING_API_LEVEL := 36
 #允许4 KB对齐的二进制文件,getconf PAGESIZE的值为4096,因此关闭检查无影响
 PRODUCT_CHECK_PREBUILT_MAX_PAGE_SIZE := false
 # ─── Dynamic partitions ───────────────────────────────────────────────────────
