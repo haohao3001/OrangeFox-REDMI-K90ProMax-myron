@@ -18,7 +18,10 @@
 
 ## 构建
 ### 初始化构建环境
-参考[OrangeFox Manifest](https://gitlab.com/OrangeFox/Manifest.git)
+该分支使用[haohao3001/android_bootable_recovery_A16_OFRPR12](https://github.com/haohao3001/android_bootable_recovery_A16_OFRPR12)作为源码  
+目前只有bootable/recovery的源码，vendor/recovery还未上传Github  
+在原版OrangeFox上删除了大量遗留代码，同时也进行了部分优化，但是不保证稳定性(可能在某些地方会有原版没有的bug)(因此这里只提供设备树，没有已编译好的recovery)  
+~~纯自用说是~~  
 ### Build it
 ```bash
 source build/envsetup.sh
@@ -49,13 +52,7 @@ mka recoveryimage
 python transplanting_vbmeta.py <原厂recovery.img> <被修补的镜像> <修补后的文件>
 ```
 ---
-1.1.0及其之前的版本配置文件保存在/persisit中，1.2.0之后改为了保存到/data/recovery(避免污染persisit分区)
-使用下面的命令可删除保存在persist中的OrangeFox配置文件
-```bash
-rm -r /mnt/vendor/persist/Fox
-rm /mnt/vendor/persist/.foxs
-rm /mnt/vendor/persist/.fsec
-```
+该分支使用/persist存储配置文件
 
 ## Maintainer
 haohao3001 - 维护者  
