@@ -53,7 +53,7 @@ export OF_NO_MIUI_PATCH_WARNING=1
 export OF_DISABLE_MIUI_OTA_BY_DEFAULT=1
 
 # ─── Settings ─────────────────────────────────────────────────────────────────
-export FOX_SETTINGS_ROOT_DIRECTORY=/data/recovery
+export FOX_SETTINGS_ROOT_DIRECTORY=/persist
 export FOX_ALLOW_EARLY_SETTINGS_LOAD=1
 
 # ─── KernelSU support ─────────────────────────────────────────────────────────

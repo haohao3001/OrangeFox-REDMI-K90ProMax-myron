@@ -18,15 +18,10 @@
 on early-fs
     write /proc/sys/walt/sched_lib_name "recovery,magiskboot,Updater,updater,update_engine_sideload"
     write /proc/sys/walt/sched_lib_mask_force 255
-
-on init
-    start vendor.boot-qti
-
-on fs
-    # Stable bootdevice path
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
 
+on fs
     # Required for firmware sysfs fallback in recovery
     write /proc/sys/kernel/firmware_config/force_sysfs_fallback 1
 
@@ -46,12 +41,19 @@ on fs
     # myron uses NXP KeyMint (same as popsicle)
     setprop ro.keymint nxp
 
+    #BootControl
+    start vendor.boot-qti
+
     #For Decrypt
     start vendor.gatekeeper_default
     start vendor.keymint
     start vendor.secretkeeper
     start vendor.qseecomd
     start odm.weaver_nxp
+    start vendor.secure_element
+
+on boot
+    setprop sys.usb.config adb
 
 on property:ro.boot.usbcontroller=*
     setprop sys.usb.controller ${ro.boot.usbcontroller}
@@ -91,10 +93,6 @@ on property:twrp.modules.loaded=true
 
     # Start health HAL for battery monitoring
     start vendor.health-default
-    
-    #For Decrypt
-    stop vendor.secure_element
-    start vendor.secure_element
 
 # -----------------------------------------------------------------------------
 # myron-specific services
