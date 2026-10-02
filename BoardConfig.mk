@@ -199,7 +199,7 @@ TW_INCLUDE_CRYPTO_FBE            := true
 TW_INCLUDE_FBE_METADATA_DECRYPT  := true
 
 # KeyMint AIDL — v4 QTI TEE + v3 ODM strongbox (NXP/Thales JavaCard)
-TW_CRYPTO_USE_VENDOR_KEYMINT      := true
+TW_CRYPTO_USE_VENDOR_KEYMINT      := false
 TW_KEYMINT_CLIENT_CONNECT_TIMEOUT := 4000
 TW_USE_FSCRYPT_POLICY            := 2
 
@@ -291,7 +291,7 @@ RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/strace
 # Touch: focaltech_touch_3683.ko (FTS IC — confirmed from odm ramdisk)
 # Audio: ADSP modules required for keymint/weaver init chain
 # ─────────────────────────────────────────────────────────
-TW_LOAD_VENDOR_MODULES := "focaltech_touch_3683.ko xiaomi_touch.ko adsp_loader_dlkm.ko q6_dlkm.ko q6_pdr_dlkm.ko q6_notifier_dlkm.ko snd_event_dlkm.ko gpr_dlkm.ko spf_core_dlkm.ko rproc_qcom_common.ko qcom_q6v5.ko qcom_q6v5_pas.ko qcom_sysmon.ko qcom-hv-haptics.ko swr_haptics_dlkm.ko"
+TW_LOAD_VENDOR_MODULES := "msm_kgsl.ko governor_gpubw_mon.ko governor_msm_adreno_tz.ko governor_msm_adreno_ro.ko gpucc-chora.ko gpucc-sm4450.ko gpu_stats.ko gpu_freq_stats.ko msm_drm.ko drm_display_helper.ko msm_ext_display.ko hdmi_dlkm.ko lt9611uxc.ko msm_hfi_core.ko sync_fence.ko msm_hw_fence.ko panel_event_notifier.ko dump_display.ko msm_sharedmem.ko qcom-amoled-regulator.ko qpnp-lcdb-regulator.ko qcom-spmi-wled.ko qti_btl.ko qti_amoled_ecm.ko hwmon.ko hdcp_qseecom_dlkm.ko smmu_proxy_dlkm.ko altmode-glink.ko qcedev-mod_dlkm.ko qcrypto-msm_dlkm.ko qce50_dlkm.ko qrng_dlkm.ko smcinvoke_dlkm.ko tmecom-intf_dlkm.ko tz_log_dlkm.ko qsee_ipc_irq_bridge.ko spcom.ko spss_utils.ko qcom_spss.ko qcom_q6v5_pas.ko qcom_q6v5.ko qcom_sysmon.ko qcom_glink_spss.ko rproc_qcom_common.ko mitee_dlkm.ko qmi_helpers.ko pdr_interface.ko qcom_pdr_msg.ko qcom_glink.ko qcom_glink_smem.ko qcom_smd.ko qcom_pil_info.ko qcom_ramdump.ko qcom_va_minidump.ko nxp-nci.ko stm_nfc_i2c.ko stm_st54se_gpio.ko qcom-hv-haptics.ko leds-qpnp-vibrator-ldo.ko ledtrig-pattern.ko swr_haptics_dlkm.ko focaltech_touch_3683.ko xiaomi_touch.ko"
 TW_LOAD_VENDOR_MODULES_EXCLUDE_GKI := true
 TW_LOAD_PREBUILT_MODULES_AT_FIRST  := true
 
